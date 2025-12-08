@@ -50,10 +50,10 @@ public class PainelControles {
      * Configura todos os listeners dos botões de movimento
      */
     private void configurarBotoesMovimento() {
-        buttonCima.addActionListener(e -> getTela().movimentarAldeoes(Direcao.CIMA));
-        buttonBaixo.addActionListener(e -> getTela().movimentarAldeoes(Direcao.BAIXO));
-        buttonEsquerda.addActionListener(e -> getTela().movimentarAldeoes(Direcao.ESQUERDA));
-        buttonDireita.addActionListener(e -> getTela().movimentarAldeoes(Direcao.DIREITA));
+        buttonCima.addActionListener(e -> getTela().movimentarTodos(Direcao.CIMA));
+        buttonBaixo.addActionListener(e -> getTela().movimentarTodos(Direcao.BAIXO));
+        buttonEsquerda.addActionListener(e -> getTela().movimentarTodos(Direcao.ESQUERDA));
+        buttonDireita.addActionListener(e -> getTela().movimentarTodos(Direcao.DIREITA));
     }
 
     /**
@@ -62,22 +62,16 @@ public class PainelControles {
     private void configurarBotoesCriacao() {
         bCriaAldeao.addActionListener(e -> criarAldeaoAleatorio());
 
-        bCriaArqueiro.addActionListener(e -> {
-            //TODO: Implementar criação de arqueiro
-            mostrarMensagemNaoImplementado("Criar Arqueiro");
-        });
+        bCriaArqueiro.addActionListener(e -> criarArqueiroAleatorio());
 
-        bCriaCavaleiro.addActionListener(e -> {
-            //TODO: Implementar criação de cavaleiro
-            mostrarMensagemNaoImplementado("Criar Cavaleiro");
-        });
+        bCriaCavaleiro.addActionListener(e -> criarCavaleiroAleatorio());
     }
 
     /**
      * Configura o listener do botão de ataque
      */
     private void configurarBotaoAtaque() {
-        atacarButton.addActionListener(e -> getTela().atacarAldeoes());
+        atacarButton.addActionListener(e -> getTela().atacarTodos());
     }
 
     /**
@@ -89,6 +83,22 @@ public class PainelControles {
         int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
 
         getTela().criarAldeao(posX, posY);
+    }
+
+    private void criarArqueiroAleatorio(){
+        final int PADDING = 50;
+        int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
+        int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
+
+        getTela().criarArqueiro(posX, posY);
+    }
+
+    private void criarCavaleiroAleatorio(){
+        final int PADDING = 50;
+        int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
+        int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
+
+        getTela().criarCavaleiro(posX, posY);
     }
 
     /**

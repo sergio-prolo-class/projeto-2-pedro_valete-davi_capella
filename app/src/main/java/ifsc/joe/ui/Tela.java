@@ -1,7 +1,11 @@
 package ifsc.joe.ui;
 
+import ifsc.joe.domain.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
+import ifsc.joe.domain.impl.Arqueiro;
+import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.enums.Direcao;
+import jdk.dynalink.linker.GuardingDynamicLinkerExporter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,14 +14,14 @@ import java.util.Set;
 
 public class Tela extends JPanel {
 
-    private final Set<Aldeao> aldeoes;
+    private final Set<Personagem> personagens;
 
     public Tela() {
 
         //TODO preciso ser melhorado
 
         this.setBackground(Color.white);
-        this.aldeoes = new HashSet<>();
+        this.personagens = new HashSet<>();
     }
 
     /**
@@ -30,8 +34,8 @@ public class Tela extends JPanel {
 
         //TODO preciso ser melhorado
 
-        // percorrendo a lista de aldeões e pedindo para cada um se desenhar na tela
-        this.aldeoes.forEach(aldeao -> aldeao.desenhar(g, this));
+        // percorrendo a lista de personagens e pedindo para cada um se desenhar na tela
+        this.personagens.forEach(personagem -> personagem.desenhar(g, this));
 
         // liberando o contexto gráfico
         g.dispose();
@@ -45,9 +49,21 @@ public class Tela extends JPanel {
      * @param y coordenada Y
      */
     public void criarAldeao(int x, int y) {
-        Aldeao a = new Aldeao(x, y);
-        a.desenhar(super.getGraphics(), this);
-        this.aldeoes.add(a);
+        Aldeao aldeao = new Aldeao(x, y);
+        aldeao.desenhar(super.getGraphics(), this);
+        this.personagens.add(aldeao);
+    }
+
+    public void criarArqueiro(int x, int y){
+        Arqueiro arqueiro = new Arqueiro(x, y);
+        arqueiro.desenhar(super.getGraphics(), this);
+        this.personagens.add(arqueiro);
+    }
+
+    public void criarCavaleiro(int x, int y){
+        Cavaleiro cavaleiro = new Cavaleiro(x, y);
+        cavaleiro.desenhar(super.getGraphics(), this);
+        this.personagens.add(cavaleiro);
     }
 
     /**
@@ -55,10 +71,10 @@ public class Tela extends JPanel {
      *
      * @param direcao direcao para movimentar
      */
-    public void movimentarAldeoes(Direcao direcao) {
+    public void movimentarTodos(Direcao direcao) {
         //TODO preciso ser melhorado
 
-        this.aldeoes.forEach(aldeao -> aldeao.mover(direcao, this.getWidth(), this.getHeight()));
+        this.personagens.forEach(aldeao -> aldeao.mover(direcao, this.getWidth(), this.getHeight()));
 
         // Depois que as coordenadas foram atualizadas é necessário repintar o JPanel
         this.repaint();
@@ -67,12 +83,12 @@ public class Tela extends JPanel {
     /**
      * Altera o estado do aldeão de atacando para não atacando e vice-versa
      */
-    public void atacarAldeoes() {
+    public void atacarTodos() {
 
         //TODO preciso ser melhorado
 
         // Percorrendo a lista de aldeões e pedindo para todos atacarem
-        this.aldeoes.forEach(Aldeao::atacar);
+        this.personagens.forEach(p -> p.atacar());
 
         // Fazendo o JPanel ser redesenhado
         this.repaint();
