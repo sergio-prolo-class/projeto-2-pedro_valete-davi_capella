@@ -1,6 +1,6 @@
-package ifsc.joe.domain;
+package ifsc.joe.domain.core;
 
-import ifsc.joe.enums.Direcao;
+import ifsc.joe.domain.enums.Direcao;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;

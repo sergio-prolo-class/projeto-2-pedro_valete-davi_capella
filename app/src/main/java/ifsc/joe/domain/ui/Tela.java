@@ -1,11 +1,10 @@
-package ifsc.joe.ui;
+package ifsc.joe.domain.ui;
 
-import ifsc.joe.domain.Personagem;
+import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
 import ifsc.joe.domain.impl.Cavaleiro;
-import ifsc.joe.enums.Direcao;
-import jdk.dynalink.linker.GuardingDynamicLinkerExporter;
+import ifsc.joe.domain.enums.Direcao;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package ifsc.joe.ui;
+package ifsc.joe.domain.ui;
 
 import javax.swing.*;
 

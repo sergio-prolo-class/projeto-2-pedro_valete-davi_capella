@@ -1,6 +1,6 @@
-package ifsc.joe.ui;
+package ifsc.joe.domain.ui;
 
-import ifsc.joe.enums.Direcao;
+import ifsc.joe.domain.enums.Direcao;
 
 import javax.swing.*;
 import java.util.Random;
