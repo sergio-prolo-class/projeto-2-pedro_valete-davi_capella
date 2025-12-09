@@ -1,6 +1,9 @@
 package ifsc.joe.ui;
 
 import ifsc.joe.domain.Personagem;
+import ifsc.joe.domain.Guerreiro;
+import ifsc.joe.domain.Montaria;
+import ifsc.joe.domain.Coletador;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
 import ifsc.joe.domain.impl.Cavaleiro;
@@ -9,12 +12,16 @@ import jdk.dynalink.linker.GuardingDynamicLinkerExporter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Tela extends JPanel {
+public class Tela extends JPanel implements MouseListener {
 
     private final Set<Personagem> personagens;
+    private Personagem atacanteSelecionado = null;
+    private boolean modoAtaqueAtivo = false;
 
     public Tela() {
 
@@ -22,13 +29,23 @@ public class Tela extends JPanel {
 
         this.setBackground(Color.white);
         this.personagens = new HashSet<>();
+        this.addMouseListener(this);
     }
 
-    /**
+    @Override
+    public void mouseClicked(MouseEvent e){
+        gerenciarCliquesAtaque(e.getX(), e.getY());
+    }
+
+    @Override public void mousePressed(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mouseExited(MouseEvent e) {}
+                             /**
      * Method que invocado sempre que o JPanel precisa ser resenhado.
      * @param g Graphics componente de java.awt
      */
-    @Override
+                             @Override
     public void paint(Graphics g) {
         super.paint(g);
 
@@ -92,5 +109,54 @@ public class Tela extends JPanel {
 
         // Fazendo o JPanel ser redesenhado
         this.repaint();
+    }
+
+    // Ativa o modo de ataque
+    public void ativarModoAtaque(){
+        this.modoAtaqueAtivo = true;
+        this.atacanteSelecionado = null;
+        System.out.println("Selecione quem vai atacar");
+    }
+
+    // Metodo para gerenciar os cliques de quem vai atacar e quem vai ser atacado
+    private void gerenciarCliquesAtaque(int x, int y){
+        if(!modoAtaqueAtivo) return;
+
+        Personagem clicado = null;
+        for(Personagem p : personagens){
+            if(x >= p.getPosX() && x <= p.getPosX() + 50 && y >= p.getPosY() && y <= p.getPosY() + 50){
+                clicado = p;
+                break;
+            }
+        }
+        if(clicado == null){
+            cancelarModoAtaque();
+            return;
+        }
+
+        if(atacanteSelecionado == null){
+            if(clicado instanceof Guerreiro){
+                atacanteSelecionado = clicado;
+                System.out.println("Agora clique no alvo");
+            }else{
+                System.out.println("Não é guerreiro");
+            }
+        }else{
+            if(clicado != atacanteSelecionado){
+                efetuarAtaque((Guerreiro) atacanteSelecionado, clicado);
+            }
+        }
+    }
+    private void efetuarAtaque(Guerreiro atacante, Personagem alvo){
+        atacante.atacar(alvo);
+        repaint();
+
+        this.personagens.removeIf(Personagem::estarMorto);
+        cancelarModoAtaque();
+    }
+
+    private void cancelarModoAtaque(){
+        this.modoAtaqueAtivo = false;
+        this.atacanteSelecionado = null;
     }
 }

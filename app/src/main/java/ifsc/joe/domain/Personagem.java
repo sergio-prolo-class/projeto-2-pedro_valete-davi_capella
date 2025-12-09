@@ -24,6 +24,15 @@ public abstract class Personagem {
         this.vidaMaxima = vidaMaxima;
     }
 
+    // Getters
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
     /**
      * Desenhando o Personagem, nas coordenadas X e Y, com a imagem 'icone'
      * no JPanel 'pai'
@@ -34,6 +43,14 @@ public abstract class Personagem {
     public void desenhar(Graphics g, JPanel painel){
         this.icone = this.carregarImagem(nomeImagemBase + (atacando ? "2" : ""));
         g.drawImage(this.icone, this.posX, this.posY, painel);
+
+        g.setColor(Color.RED);
+        int posBarraY = (this.posY < 15) ? this.posY + 55 : this.posY - 10;
+        g.fillRect(this.posX, posBarraY, 50, 5);
+
+        g.setColor(Color.GREEN);
+        int tamanhoBarra = (int) ((double) this.vida / vidaMaxima * 50);
+        g.fillRect(this.posX, posBarraY, tamanhoBarra, 5);
     }
 
     /**
@@ -66,5 +83,19 @@ public abstract class Personagem {
 
     protected Image carregarImagem(String imagem){
         return new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./" + imagem + ".png"))).getImage();
+    }
+
+    // Metodo para receber o dano de um ataque
+
+    public void receberDano(int dano){
+        this.vida -= dano;
+        if(this.vida < 0){
+            this.vida = 0;
+        }
+    }
+
+    // Metodo para verificar se esta morto
+    public boolean estarMorto(){
+        return this.vida <= 0;
     }
 }
