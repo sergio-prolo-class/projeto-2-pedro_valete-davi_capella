@@ -11,13 +11,17 @@ public abstract class Personagem {
     protected boolean atacando;
     protected Image icone;
     protected String nomeImagemBase;
+    protected int vida;
+    protected int vidaMaxima;
 
-    public Personagem(int x, int y, String nomeImagemBase){
+    public Personagem(int x, int y, String nomeImagemBase, int vidaMaxima){
         this.posX = x;
         this.posY = y;
         this.nomeImagemBase = nomeImagemBase;
         this.atacando = false;
         this.icone = this.carregarImagem(nomeImagemBase);
+        this.vida = vidaMaxima;
+        this.vidaMaxima = vidaMaxima;
     }
 
     /**
