@@ -1,32 +1,29 @@
 package ifsc.joe.domain.impl;
 
-import ifsc.joe.domain.Guerreiro;
-import ifsc.joe.domain.Montaria;
-import ifsc.joe.domain.Personagem;
+import ifsc.joe.domain.consts.Constantes;
+import ifsc.joe.domain.core.Personagem;
+import ifsc.joe.domain.api.Guerreiro;
+import ifsc.joe.domain.api.Montaria;
 
 public class Cavaleiro extends Personagem implements Guerreiro, Montaria {
     public static final String NOME_IMAGEM = "cavaleiro";
-    private int dano = 10;
-    private boolean montado = true;
 
     public Cavaleiro(int x, int y){
-        super(x, y, NOME_IMAGEM, 150);
+        super(x, y, NOME_IMAGEM, Constantes.CAVALEIRO_VIDA_INICIAL);
     }
 
     @Override
-    public void atacar(Personagem alvo){
-        alvo.receberDano(this.dano);
+    public void atacar(Personagem alvo) {
+        System.out.println("Cavaleiro atacou com espada!");
     }
 
     @Override
-    public void montar(){
-        this.montado = true;
-        // Implementar o incremento de velocidade
+    public void montar() {
+        System.out.println("Cavaleiro está montado.");
     }
 
     @Override
-    public void desmontar(){
-        this.montado = false;
-        // Velocidade normal
+    public void desmontar() {
+        System.out.println("Cavaleiro desmontou.");
     }
 }

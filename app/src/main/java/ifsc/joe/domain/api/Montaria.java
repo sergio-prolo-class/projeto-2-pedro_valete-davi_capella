@@ -1,4 +1,4 @@
-package ifsc.joe.domain;
+package ifsc.joe.domain.api;
 
 public interface Montaria {
     void montar();

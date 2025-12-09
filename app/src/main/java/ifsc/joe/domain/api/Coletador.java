@@ -1,6 +1,6 @@
-package ifsc.joe.domain;
+package ifsc.joe.domain.api;
 
-import ifsc.joe.enums.Recurso;
+import ifsc.joe.domain.enums.Recurso;
 
 public interface Coletador {
     void coletar(Recurso recurso);

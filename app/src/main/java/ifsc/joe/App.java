@@ -1,6 +1,6 @@
 package ifsc.joe;
 
-import ifsc.joe.ui.JanelaJogo;
+import ifsc.joe.domain.ui.JanelaJogo;
 import javax.swing.*;
 
 public class App {
