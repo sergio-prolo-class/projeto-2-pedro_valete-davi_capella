@@ -4,9 +4,9 @@ import ifsc.joe.domain.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.enums.Recurso;
-import ifsc.joe.domain.api.Montaria;
+import ifsc.joe.domain.api.ComMontaria;
 
-public class Aldeao extends Personagem implements Coletador, Montaria {
+public class Aldeao extends Personagem implements Coletador, ComMontaria {
     private static final String NOME_IMAGEM = "aldeao";
 
     public Aldeao(int x, int y){

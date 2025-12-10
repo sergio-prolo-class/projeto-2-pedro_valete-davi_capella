@@ -3,9 +3,9 @@ package ifsc.joe.domain.impl;
 import ifsc.joe.domain.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.api.Guerreiro;
-import ifsc.joe.domain.api.Montaria;
+import ifsc.joe.domain.api.ComMontaria;
 
-public class Cavaleiro extends Personagem implements Guerreiro, Montaria {
+public class Cavaleiro extends Personagem implements Guerreiro, ComMontaria {
     public static final String NOME_IMAGEM = "cavaleiro";
 
     public Cavaleiro(int x, int y){
@@ -14,7 +14,10 @@ public class Cavaleiro extends Personagem implements Guerreiro, Montaria {
 
     @Override
     public void atacar(Personagem alvo) {
-        System.out.println("Cavaleiro atacou com espada!");
+        if (alvo != this) {
+            System.out.println("Cavaleiro atacou com espada!");
+            alvo.sofrerDano(Constantes.CAVALEIRO_ATAQUE);
+        }
     }
 
     @Override

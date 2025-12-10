@@ -1,6 +1,6 @@
 package ifsc.joe.domain.api;
 
-public interface Montaria {
+public interface ComMontaria {
     void montar();
     void desmontar();
 }

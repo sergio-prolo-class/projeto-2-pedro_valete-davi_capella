@@ -83,13 +83,26 @@ public class Tela extends JPanel {
      * Altera o estado do aldeão de atacando para não atacando e vice-versa
      */
     public void atacarTodos() {
+        // Alterna a animação visual (mantém o que já existia)
+        this.personagens.forEach(Personagem::atacar);
 
-        //TODO preciso ser melhorado
+        for (Personagem atacante : this.personagens) {
+            if (atacante instanceof ifsc.joe.domain.api.Guerreiro) {
+                for (Personagem alvo : this.personagens) {
+                    if (atacante != alvo && calcularDistancia(atacante, alvo) <= 50) {
+                        ((ifsc.joe.domain.api.Guerreiro) atacante).atacar(alvo);
+                    }
+                }
+            }
+        }
 
-        // Percorrendo a lista de aldeões e pedindo para todos atacarem
-        this.personagens.forEach(p -> p.atacar());
+        // 3. Remove os mortos da tela
+        this.personagens.removeIf(Personagem::estarMorto);
 
-        // Fazendo o JPanel ser redesenhado
         this.repaint();
+    }
+
+    private double calcularDistancia(Personagem p1, Personagem p2) {
+        return Math.sqrt(Math.pow(p1.getPosX() - p2.getPosX(), 2) + Math.pow(p1.getPosY() - p2.getPosY(), 2));
     }
 }

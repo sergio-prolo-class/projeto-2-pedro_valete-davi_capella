@@ -16,7 +16,11 @@ public class Arqueiro extends Personagem implements Guerreiro, Coletador {
     // Mét0do obrigatório da interface Guerreiro
     @Override
     public void atacar(Personagem alvo) {
-        System.out.println("Arqueiro atacou um alvo!");
+        // Verifica se não está atacando a si mesmo
+        if (alvo != this) {
+            System.out.println("Arqueiro disparou flecha!");
+            alvo.sofrerDano(Constantes.ARQUEIRO_ATAQUE);
+        }
     }
 
     @Override

@@ -87,7 +87,7 @@ public abstract class Personagem {
 
     // Metodo para receber o dano de um ataque
 
-    public void receberDano(int dano){
+    public void sofrerDano(int dano){
         this.vida -= dano;
         if(this.vida < 0){
             this.vida = 0;
