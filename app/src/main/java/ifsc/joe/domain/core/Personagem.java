@@ -40,17 +40,34 @@ public abstract class Personagem {
      * @param g objeto do JPanel que será usado para desenhar o Aldeão
      */
 
-    public void desenhar(Graphics g, JPanel painel){
+    public void desenhar(Graphics g, JPanel painel) {
         this.icone = this.carregarImagem(nomeImagemBase + (atacando ? "2" : ""));
         g.drawImage(this.icone, this.posX, this.posY, painel);
 
-        g.setColor(Color.RED);
-        int posBarraY = (this.posY < 15) ? this.posY + 55 : this.posY - 10;
-        g.fillRect(this.posX, posBarraY, 50, 5);
+            // Calcula a porcentagem de 0 a 1
+            double porcentagem = (double) this.vida / this.vidaMaxima;
 
-        g.setColor(Color.GREEN);
-        int tamanhoBarra = (int) ((double) this.vida / vidaMaxima * 50);
-        g.fillRect(this.posX, posBarraY, tamanhoBarra, 5);
+            int larguraBarra = 40;
+            int alturaBarra = 5;
+
+            // Define a posição Y, se estiver no topo a barra vai pra baixo
+            int posYBarra = (this.posY < 10) ? this.posY + 52 : this.posY - 8;
+
+            g.setColor(Color.GRAY); // Fundo da barra
+            g.fillRect(this.posX, posYBarra, larguraBarra, alturaBarra);
+
+            // Cor baseada na porcentagem da vida
+            if (porcentagem >= 0.75) {
+                g.setColor(Color.GREEN);
+            } else if (porcentagem >= 0.25) {
+                g.setColor(Color.YELLOW);
+            } else {
+                g.setColor(Color.RED);
+            }
+
+            // Preenche de acordo com a vida automaticamente
+            int larguraVida = (int) (larguraBarra * porcentagem);
+            g.fillRect(this.posX, posYBarra, larguraVida, alturaBarra);
     }
 
     /**
