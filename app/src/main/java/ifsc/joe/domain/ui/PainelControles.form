@@ -189,7 +189,7 @@
               </grid>
               <component id="8b3a5" class="javax.swing.JButton" binding="atacarButton" default-binding="true">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="-1" height="25"/>
                   </grid>
                 </constraints>

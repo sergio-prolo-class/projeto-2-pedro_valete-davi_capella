@@ -47,13 +47,13 @@ public class PainelControles {
     }
 
     /**
-     * Configura todos os listeners dos botões de movimento
+     * Configura todos os listeners dos botões de movimento, agora com o tipo selecionado
      */
     private void configurarBotoesMovimento() {
-        buttonCima.addActionListener(e -> getTela().movimentarTodos(Direcao.CIMA));
-        buttonBaixo.addActionListener(e -> getTela().movimentarTodos(Direcao.BAIXO));
-        buttonEsquerda.addActionListener(e -> getTela().movimentarTodos(Direcao.ESQUERDA));
-        buttonDireita.addActionListener(e -> getTela().movimentarTodos(Direcao.DIREITA));
+        buttonCima.addActionListener(e -> getTela().movimentar(Direcao.CIMA, getTipoSelecionado()));
+        buttonBaixo.addActionListener(e -> getTela().movimentar(Direcao.BAIXO, getTipoSelecionado()));
+        buttonEsquerda.addActionListener(e -> getTela().movimentar(Direcao.ESQUERDA, getTipoSelecionado()));
+        buttonDireita.addActionListener(e -> getTela().movimentar(Direcao.DIREITA, getTipoSelecionado()));
     }
 
     /**
@@ -72,7 +72,7 @@ public class PainelControles {
      */
     private void configurarBotaoAtaque() {
         atacarButton.addActionListener(e -> {
-            getTela().atacarTodos();
+            getTela().atacar(getTipoSelecionado());
         });
     }
 
@@ -138,5 +138,17 @@ public class PainelControles {
      */
     private void createUIComponents() {
         this.painelTela = new Tela();
+    }
+
+    // Retorna o nome do tipo selecionado nos radios buttons
+    private String getTipoSelecionado(){
+        if(aldeaoRadioButton.isSelected()){
+            return "ALDEAO";
+        }else if(arqueiroRadioButton.isSelected()){
+            return "ARQUEIRO";
+        }else if(cavaleiroRadioButton.isSelected()){
+            return "CAVALEIRO";
+        }
+        return "TODOS";
     }
 }

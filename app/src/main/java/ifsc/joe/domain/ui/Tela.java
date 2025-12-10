@@ -5,6 +5,7 @@ import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
 import ifsc.joe.domain.impl.Cavaleiro;
 import ifsc.joe.domain.enums.Direcao;
+import ifsc.joe.domain.api.Guerreiro;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,21 +77,63 @@ public class Tela extends JPanel {
         this.personagens.add(cavaleiro);
     }
 
-    public void movimentarTodos(Direcao direcao) {
-        this.personagens.forEach(aldeao -> aldeao.mover(direcao, this.getWidth(), this.getHeight()));
+    public void movimentar(Direcao direcao, String tipoRadioButton) {
+        for (Personagem p : this.personagens) {
+
+            boolean deveMover = false;
+
+            // Se o tipo for TODOS, move sempre
+            if (tipoRadioButton.equals("TODOS")) {
+                deveMover = true;
+            }else if (tipoRadioButton.equals("ALDEAO") && p instanceof Aldeao) { // Se for ALDEAO, verifica se 'p' é instância de Aldeao
+                deveMover = true;
+            }else if (tipoRadioButton.equals("ARQUEIRO") && p instanceof Arqueiro) { // Se for ARQUEIRO, verifica se 'p' é instância de Arqueiro
+                deveMover = true;
+            }else if (tipoRadioButton.equals("CAVALEIRO") && p instanceof Cavaleiro) { // Se for CAVALEIRO, verifica se 'p' é instância de Cavaleiro
+                deveMover = true;
+            }
+
+            // Se passou em algum teste acima, executa o movimento
+            if (deveMover) {
+                p.mover(direcao, this.getWidth(), this.getHeight());
+            }
+        }
+
         this.repaint();
     }
 
-    public void atacarTodos() {
-        // Animação de ataque dos vivos
-        this.personagens.forEach(Personagem::atacar);
-
-        // Lógica de Dano
+    public void atacar(String tipoRadioButton) {
         for (Personagem atacante : this.personagens) {
-            if (atacante instanceof ifsc.joe.domain.api.Guerreiro) {
+
+            // Verificação do filtro, igual para a movimentação
+            boolean deveAtacar = false;
+
+            if (tipoRadioButton.equals("TODOS")) {
+                deveAtacar = true;
+            }
+            else if (tipoRadioButton.equals("ALDEAO") && atacante instanceof Aldeao) {
+                deveAtacar = true;
+            }
+            else if (tipoRadioButton.equals("ARQUEIRO") && atacante instanceof Arqueiro) {
+                deveAtacar = true;
+            }
+            else if (tipoRadioButton.equals("CAVALEIRO") && atacante instanceof Cavaleiro) {
+                deveAtacar = true;
+            }
+
+            // Se não passou no filtro ele pula para o próximo personagem
+            if (!deveAtacar) continue;
+
+
+            // Executa só para quem passou no filtro
+            atacante.atacar();
+
+
+            // Lógica do dano só se for Guerreiro e passou no filtro
+            if (atacante instanceof Guerreiro) {
                 for (Personagem alvo : this.personagens) {
-                    if (atacante != alvo && calcularDistancia(atacante, alvo) <= 50) {
-                        ((ifsc.joe.domain.api.Guerreiro) atacante).atacar(alvo);
+                    if (atacante != alvo && !alvo.estarMorto() && calcularDistancia(atacante, alvo) <= 50) {
+                        ((Guerreiro) atacante).atacar(alvo);
                     }
                 }
             }
