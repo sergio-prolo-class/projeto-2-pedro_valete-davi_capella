@@ -72,7 +72,7 @@ public class PainelControles {
      */
     private void configurarBotaoAtaque() {
         atacarButton.addActionListener(e -> {
-            getTela().ativarModoAtaque();
+            getTela().atacarTodos();
         });
     }
 

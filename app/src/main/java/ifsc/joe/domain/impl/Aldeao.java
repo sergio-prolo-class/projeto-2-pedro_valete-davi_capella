@@ -4,8 +4,9 @@ import ifsc.joe.domain.consts.Constantes;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.enums.Recurso;
+import ifsc.joe.domain.api.Montaria;
 
-public class Aldeao extends Personagem implements Coletador {
+public class Aldeao extends Personagem implements Coletador, Montaria {
     private static final String NOME_IMAGEM = "aldeao";
 
     public Aldeao(int x, int y){
@@ -16,5 +17,14 @@ public class Aldeao extends Personagem implements Coletador {
     @Override
     public void coletar(Recurso recurso) {
         System.out.println("Aldeão coletando: " + recurso);
+    }
+
+    @Override
+    public void montar(){
+        // Implementar alteração de velocidade
+    }
+    @Override
+    public void desmontar(){
+        // Implementar alteração de velocidade
     }
 }
