@@ -10,43 +10,54 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Tela extends JPanel {
 
     private final Set<Personagem> personagens;
 
+    // Novas variáveis para o Fade Out
+    private final Set<Personagem> morrendo; // Lista temporária para animação
+    private float opacidade = 1.0f; // Começa totalmente visível
+    private Timer timerAnimacao;
+
+    // Contadores
+    private int baixasAldeoes = 0;
+    private int baixasArqueiros = 0;
+    private int baixasCavaleiros = 0;
+
     public Tela() {
-
-        //TODO preciso ser melhorado
-
         this.setBackground(Color.white);
         this.personagens = new HashSet<>();
+        this.morrendo = new HashSet<>();
     }
 
-    /**
-     * Method que invocado sempre que o JPanel precisa ser resenhado.
-     * @param g Graphics componente de java.awt
-     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-        //TODO preciso ser melhorado
+        // 1. Desenha os personagens vivos normalmente
+        for (Personagem personagem : this.personagens) {
+            personagem.desenhar(g, this);
+        }
 
-        // percorrendo a lista de personagens e pedindo para cada um se desenhar na tela
-        this.personagens.forEach(personagem -> personagem.desenhar(g, this));
+        // 2. Desenha os personagens morrendo com transparência (Fade Out)
+        if (!morrendo.isEmpty()) {
+            Graphics2D g2d = (Graphics2D) g;
+            // Configura a transparência baseada na variável 'opacidade'
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacidade));
 
-        // liberando o contexto gráfico
+            for (Personagem p : this.morrendo) {
+                p.desenhar(g, this);
+            }
+
+            // Reseta para não afetar os próximos desenhos
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+        }
+
         g.dispose();
     }
 
-    /**
-     * Cria um aldeao nas coordenadas X e Y, desenha-o neste JPanel
-     * e adiciona o mesmo na lista de aldeoes
-     *
-     * @param x coordenada X
-     * @param y coordenada Y
-     */
     public void criarAldeao(int x, int y) {
         Aldeao aldeao = new Aldeao(x, y);
         aldeao.desenhar(super.getGraphics(), this);
@@ -65,27 +76,16 @@ public class Tela extends JPanel {
         this.personagens.add(cavaleiro);
     }
 
-    /**
-     * Atualiza as coordenadas X ou Y de todos os aldeoes
-     *
-     * @param direcao direcao para movimentar
-     */
     public void movimentarTodos(Direcao direcao) {
-        //TODO preciso ser melhorado
-
         this.personagens.forEach(aldeao -> aldeao.mover(direcao, this.getWidth(), this.getHeight()));
-
-        // Depois que as coordenadas foram atualizadas é necessário repintar o JPanel
         this.repaint();
     }
 
-    /**
-     * Altera o estado do aldeão de atacando para não atacando e vice-versa
-     */
     public void atacarTodos() {
-        // Alterna a animação visual (mantém o que já existia)
+        // Animação de ataque dos vivos
         this.personagens.forEach(Personagem::atacar);
 
+        // Lógica de Dano
         for (Personagem atacante : this.personagens) {
             if (atacante instanceof ifsc.joe.domain.api.Guerreiro) {
                 for (Personagem alvo : this.personagens) {
@@ -96,10 +96,56 @@ public class Tela extends JPanel {
             }
         }
 
-        // 3. Remove os mortos da tela
-        this.personagens.removeIf(Personagem::estarMorto);
+        // Identifica quem morreu agora
+        Set<Personagem> novosMortos = this.personagens.stream()
+                .filter(Personagem::estarMorto)
+                .collect(Collectors.toSet());
+
+        // Processa as mortes
+        if (!novosMortos.isEmpty()) {
+            novosMortos.forEach(p -> {
+                if (p instanceof Aldeao) baixasAldeoes++;
+                else if (p instanceof Arqueiro) baixasArqueiros++;
+                else if (p instanceof Cavaleiro) baixasCavaleiros++;
+
+                System.out.println("Baixa confirmada: " + p.getClass().getSimpleName() +
+                        " eliminado! (Total: " +
+                        (p instanceof Aldeao ? baixasAldeoes :
+                                p instanceof Arqueiro ? baixasArqueiros : baixasCavaleiros) + ")");
+            });
+
+            // Transfere dos vivos para a lista de animação "morrendo"
+            this.morrendo.addAll(novosMortos);
+            this.personagens.removeAll(novosMortos);
+
+            // Inicia o Fade Out
+            iniciarAnimacaoMorte();
+        }
 
         this.repaint();
+    }
+
+    // Método novo para controlar o Timer da animação
+    private void iniciarAnimacaoMorte() {
+        this.opacidade = 1.0f; // Reseta opacidade
+
+        if (timerAnimacao != null && timerAnimacao.isRunning()) {
+            timerAnimacao.stop();
+        }
+
+        // Cria um timer que roda a cada 50ms
+        timerAnimacao = new Timer(50, e -> {
+            opacidade -= 0.1f; // Diminui 10% da opacidade por ciclo
+
+            if (opacidade <= 0.0f) {
+                opacidade = 0.0f;
+                morrendo.clear(); // Limpa a lista quando fica invisível
+                ((Timer)e.getSource()).stop();
+            }
+            repaint(); // Redesenha a tela com a nova opacidade
+        });
+
+        timerAnimacao.start();
     }
 
     private double calcularDistancia(Personagem p1, Personagem p2) {
