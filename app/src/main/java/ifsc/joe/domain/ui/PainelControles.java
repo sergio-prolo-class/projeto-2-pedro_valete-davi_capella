@@ -178,4 +178,19 @@ public class PainelControles {
         }
         return "TODOS";
     }
+
+    // Mét0do para alternar o filtro
+    public void selecionarProximoFiltro() {
+        if (todosRadioButton.isSelected()) {
+            aldeaoRadioButton.setSelected(true);
+        } else if (aldeaoRadioButton.isSelected()) {
+            arqueiroRadioButton.setSelected(true);
+        } else if (arqueiroRadioButton.isSelected()) {
+            cavaleiroRadioButton.setSelected(true);
+        } else {
+            todosRadioButton.setSelected(true);
+        }
+        // imprimir no console
+        System.out.println("Filtro alterado para: " + getTipoSelecionado());
+    }
 }

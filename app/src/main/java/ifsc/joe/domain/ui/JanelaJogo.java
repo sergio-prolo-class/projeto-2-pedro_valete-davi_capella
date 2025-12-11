@@ -31,6 +31,12 @@ public class JanelaJogo {
         frame.pack();
         frame.setLocationRelativeTo(null); // Centralizar na tela
 
+        // --- CORREÇÃO IMPORTANTE ---
+        // Desativa a função padrão do TAB (que é mudar o foco entre botões)
+        // Isso permite que o seu KeyListener capture o TAB para trocar os filtros
+        frame.setFocusTraversalKeysEnabled(false);
+        // ---------------------------
+
         frame.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -38,7 +44,7 @@ public class JanelaJogo {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Recebi a tecla: " + e.getKeyCode());
+                // System.out.println("Recebi a tecla: " + e.getKeyCode());
                 String tipoSelecionado = painelControles.getTipoSelecionado();
 
                 switch (e.getKeyCode()){
@@ -53,6 +59,7 @@ public class JanelaJogo {
 
                     case KeyEvent.VK_SPACE -> painelControles.getTela().atacar(tipoSelecionado);
                     case KeyEvent.VK_M -> painelControles.getTela().alternarMontaria(tipoSelecionado);
+                    case KeyEvent.VK_TAB -> painelControles.selecionarProximoFiltro();
                 }
             }
 
