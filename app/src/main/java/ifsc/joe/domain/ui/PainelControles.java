@@ -36,6 +36,7 @@ public class PainelControles {
     public PainelControles() {
         this.sorteio = new Random();
         configurarListeners();
+        configurarFocoBotao();
     }
 
     /**
@@ -85,10 +86,23 @@ public class PainelControles {
         });
     }
 
+    // Configura para redirecionar o foco após algum botão ser clicado
+    private void configurarFocoBotao(){
+        bCriaAldeao.setFocusable(false);
+        bCriaArqueiro.setFocusable(false);
+        bCriaCavaleiro.setFocusable(false);
+        atacarButton.setFocusable(false);
+        buttonCima.setFocusable(false);
+        buttonEsquerda.setFocusable(false);
+        buttonBaixo.setFocusable(false);
+        buttonDireita.setFocusable(false);
+        montarDesmontarButton.setFocusable(false);
+    }
+
     /**
      * Cria um aldeão em posição aleatória na tela.
      */
-    private void criarAldeaoAleatorio() {
+    public void criarAldeaoAleatorio() {
         final int PADDING = 50;
         int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
         int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
@@ -96,7 +110,7 @@ public class PainelControles {
         getTela().criarAldeao(posX, posY);
     }
 
-    private void criarArqueiroAleatorio(){
+    public void criarArqueiroAleatorio(){
         final int PADDING = 50;
         int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
         int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
@@ -104,7 +118,7 @@ public class PainelControles {
         getTela().criarArqueiro(posX, posY);
     }
 
-    private void criarCavaleiroAleatorio(){
+    public void criarCavaleiroAleatorio(){
         final int PADDING = 50;
         int posX = sorteio.nextInt(painelTela.getWidth() - PADDING);
         int posY = sorteio.nextInt(painelTela.getHeight() - PADDING);
@@ -127,7 +141,7 @@ public class PainelControles {
     /**
      * Obtém a referência da Tela com cast seguro.
      */
-    private Tela getTela() {
+    public Tela getTela() {
         if (tela == null) {
             tela = (Tela) painelTela;
         }
@@ -150,7 +164,7 @@ public class PainelControles {
     }
 
     // Retorna o nome do tipo selecionado nos radios buttons
-    private String getTipoSelecionado(){
+    public String getTipoSelecionado(){
         if(aldeaoRadioButton.isSelected()){
             return "ALDEAO";
         }else if(arqueiroRadioButton.isSelected()){

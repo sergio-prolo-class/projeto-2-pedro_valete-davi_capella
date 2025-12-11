@@ -1,6 +1,9 @@
 package ifsc.joe.domain.ui;
 
 import javax.swing.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import ifsc.joe.domain.enums.Direcao;
 
 /**
  * Classe responsável pela configuração e exibição da janela principal do jogo.
@@ -27,6 +30,36 @@ public class JanelaJogo {
         frame.setContentPane(painelControles.getPainelPrincipal());
         frame.pack();
         frame.setLocationRelativeTo(null); // Centralizar na tela
+
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Recebi a tecla: " + e.getKeyCode());
+                String tipoSelecionado = painelControles.getTipoSelecionado();
+
+                switch (e.getKeyCode()){
+                    case KeyEvent.VK_W -> painelControles.getTela().movimentar(Direcao.CIMA, tipoSelecionado);
+                    case KeyEvent.VK_A -> painelControles.getTela().movimentar(Direcao.ESQUERDA, tipoSelecionado);
+                    case KeyEvent.VK_S -> painelControles.getTela().movimentar(Direcao.BAIXO, tipoSelecionado);
+                    case KeyEvent.VK_D -> painelControles.getTela().movimentar(Direcao.DIREITA, tipoSelecionado);
+
+                    case KeyEvent.VK_1 -> painelControles.criarAldeaoAleatorio();
+                    case KeyEvent.VK_2 -> painelControles.criarArqueiroAleatorio();
+                    case KeyEvent.VK_3 -> painelControles.criarCavaleiroAleatorio();
+
+                    case KeyEvent.VK_SPACE -> painelControles.getTela().atacar(tipoSelecionado);
+                    case KeyEvent.VK_M -> painelControles.getTela().alternarMontaria(tipoSelecionado);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
     }
 
     /**
@@ -34,5 +67,8 @@ public class JanelaJogo {
      */
     public void exibir() {
         frame.setVisible(true);
+
+        frame.setFocusable(true);
+        frame.requestFocus();
     }
 }
