@@ -97,6 +97,10 @@ public class PainelControles {
         buttonBaixo.setFocusable(false);
         buttonDireita.setFocusable(false);
         montarDesmontarButton.setFocusable(false);
+        todosRadioButton.setFocusable(false);
+        aldeaoRadioButton.setFocusable(false);
+        arqueiroRadioButton.setFocusable(false);
+        cavaleiroRadioButton.setFocusable(false);
     }
 
     /**
