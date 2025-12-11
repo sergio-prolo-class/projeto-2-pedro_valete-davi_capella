@@ -18,7 +18,7 @@ public class Tela extends JPanel {
 
     private final Set<Personagem> personagens;
 
-    // Novas variáveis para o Fade Out
+    // Novas variáveis para o Fade Out de Morte
     private final Set<Personagem> morrendo; // Lista temporária para animação
     private float opacidade = 1.0f; // Começa totalmente visível
     private Timer timerAnimacao;
@@ -86,11 +86,11 @@ public class Tela extends JPanel {
             // Se o tipo for TODOS, move sempre
             if (tipoRadioButton.equals("TODOS")) {
                 deveMover = true;
-            }else if (tipoRadioButton.equals("ALDEAO") && p instanceof Aldeao) { // Se for ALDEAO, verifica se 'p' é instância de Aldeao
+            }else if (tipoRadioButton.equals("ALDEAO") && p instanceof Aldeao) {
                 deveMover = true;
-            }else if (tipoRadioButton.equals("ARQUEIRO") && p instanceof Arqueiro) { // Se for ARQUEIRO, verifica se 'p' é instância de Arqueiro
+            }else if (tipoRadioButton.equals("ARQUEIRO") && p instanceof Arqueiro) {
                 deveMover = true;
-            }else if (tipoRadioButton.equals("CAVALEIRO") && p instanceof Cavaleiro) { // Se for CAVALEIRO, verifica se 'p' é instância de Cavaleiro
+            }else if (tipoRadioButton.equals("CAVALEIRO") && p instanceof Cavaleiro) {
                 deveMover = true;
             }
 
@@ -127,15 +127,16 @@ public class Tela extends JPanel {
                 continue;
             }
 
-
-            // Executa só para quem passou no filtro
+            // Executa o ataque (inicia o tempo no Personagem)
             atacante.atacar();
-
 
             // Lógica do dano só se for Guerreiro e passou no filtro
             if (atacante instanceof Guerreiro) {
                 for (Personagem alvo : this.personagens) {
-                    if (atacante != alvo && !alvo.estarMorto() && calcularDistancia(atacante, alvo) <= 50) {
+                    // Requisito: Alcance Variável
+                    if (atacante != alvo && !alvo.estarMorto() &&
+                            calcularDistancia(atacante, alvo) <= atacante.getAlcance()) {
+
                         ((Guerreiro) atacante).atacar(alvo);
                     }
                 }
@@ -164,14 +165,29 @@ public class Tela extends JPanel {
             this.morrendo.addAll(novosMortos);
             this.personagens.removeAll(novosMortos);
 
-            // Inicia o Fade Out
+            // Inicia o Fade Out de Morte
             iniciarAnimacaoMorte();
         }
 
         this.repaint();
+
+
+        // Isso obriga a tela a atualizar enquanto o círculo desaparece
+        Timer timerAtaque = new Timer(50, null);
+        long inicioAnimacao = System.currentTimeMillis();
+
+        timerAtaque.addActionListener(e -> {
+            this.repaint(); // Redesenha a tela
+
+            // Para o timer depois de 1.1 segundos
+            if (System.currentTimeMillis() - inicioAnimacao > 1100) {
+                timerAtaque.stop();
+            }
+        });
+        timerAtaque.start();
     }
 
-    // Método novo para controlar o Timer da animação
+    // Método novo para controlar o Timer da animação de morte
     private void iniciarAnimacaoMorte() {
         this.opacidade = 1.0f; // Reseta opacidade
 
@@ -179,16 +195,16 @@ public class Tela extends JPanel {
             timerAnimacao.stop();
         }
 
-        // Cria um timer que roda a cada 50ms
+        // Cria um timer
         timerAnimacao = new Timer(50, e -> {
-            opacidade -= 0.1f; // Diminui 10% da opacidade por ciclo
+            opacidade -= 0.1f;
 
             if (opacidade <= 0.0f) {
                 opacidade = 0.0f;
-                morrendo.clear(); // Limpa a lista quando fica invisível
+                morrendo.clear();
                 ((Timer)e.getSource()).stop();
             }
-            repaint(); // Redesenha a tela com a nova opacidade
+            repaint();
         });
 
         timerAnimacao.start();

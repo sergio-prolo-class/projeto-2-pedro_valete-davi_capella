@@ -14,6 +14,8 @@ public abstract class Personagem {
     protected int vida;
     protected int vidaMaxima;
     protected int velocidade;
+    protected int alcance;
+    protected long tempoInicioAtaque;
 
     public Personagem(int x, int y, String nomeImagemBase, int vidaMaxima){
         this.posX = x;
@@ -23,6 +25,7 @@ public abstract class Personagem {
         this.icone = this.carregarImagem(nomeImagemBase);
         this.vida = vidaMaxima;
         this.vidaMaxima = vidaMaxima;
+        this.tempoInicioAtaque = 0;
     }
 
     // Getters
@@ -34,6 +37,10 @@ public abstract class Personagem {
         return posY;
     }
 
+    public int getAlcance() {
+        return alcance;
+    }
+
     /**
      * Desenhando o Personagem, nas coordenadas X e Y, com a imagem 'icone'
      * no JPanel 'pai'
@@ -42,33 +49,55 @@ public abstract class Personagem {
      */
 
     public void desenhar(Graphics g, JPanel painel) {
+        if (this.atacando) {
+            long tempoDecorrido = System.currentTimeMillis() - this.tempoInicioAtaque;
+            int duracao = 1000;
+
+            if (tempoDecorrido < duracao) {
+                float opacidade = 1.0f - ((float) tempoDecorrido / duracao);
+
+                int alphaFill = Math.max(0, (int)(50 * opacidade));
+                int alphaBorder = Math.max(0, (int)(255 * opacidade));
+
+                g.setColor(new Color(255, 0, 0, alphaFill));
+                int centroX = this.posX + 25;
+                int centroY = this.posY + 25;
+                g.fillOval(centroX - this.alcance, centroY - this.alcance, this.alcance * 2, this.alcance * 2);
+
+                g.setColor(new Color(255, 0, 0, alphaBorder));
+                g.drawOval(centroX - this.alcance, centroY - this.alcance, this.alcance * 2, this.alcance * 2);
+            } else {
+                this.atacando = false;
+            }
+        }
+
         this.icone = this.carregarImagem(nomeImagemBase + (atacando ? "2" : ""));
         g.drawImage(this.icone, this.posX, this.posY, painel);
 
-            // Calcula a porcentagem de 0 a 1
-            double porcentagem = (double) this.vida / this.vidaMaxima;
+        // Calcula a porcentagem de 0 a 1
+        double porcentagem = (double) this.vida / this.vidaMaxima;
 
-            int larguraBarra = 40;
-            int alturaBarra = 5;
+        int larguraBarra = 40;
+        int alturaBarra = 5;
 
-            // Define a posição Y, se estiver no topo a barra vai pra baixo
-            int posYBarra = (this.posY < 10) ? this.posY + 52 : this.posY - 8;
+        // Define a posição Y, se estiver no topo a barra vai pra baixo
+        int posYBarra = (this.posY < 10) ? this.posY + 52 : this.posY - 8;
 
-            g.setColor(Color.GRAY); // Fundo da barra
-            g.fillRect(this.posX, posYBarra, larguraBarra, alturaBarra);
+        g.setColor(Color.GRAY); // Fundo da barra
+        g.fillRect(this.posX, posYBarra, larguraBarra, alturaBarra);
 
-            // Cor baseada na porcentagem da vida
-            if (porcentagem >= 0.75) {
-                g.setColor(Color.GREEN);
-            } else if (porcentagem >= 0.25) {
-                g.setColor(Color.YELLOW);
-            } else {
-                g.setColor(Color.RED);
-            }
+        // Cor baseada na porcentagem da vida
+        if (porcentagem >= 0.75) {
+            g.setColor(Color.GREEN);
+        } else if (porcentagem >= 0.25) {
+            g.setColor(Color.YELLOW);
+        } else {
+            g.setColor(Color.RED);
+        }
 
-            // Preenche de acordo com a vida automaticamente
-            int larguraVida = (int) (larguraBarra * porcentagem);
-            g.fillRect(this.posX, posYBarra, larguraVida, alturaBarra);
+        // Preenche de acordo com a vida automaticamente
+        int larguraVida = (int) (larguraBarra * porcentagem);
+        g.fillRect(this.posX, posYBarra, larguraVida, alturaBarra);
     }
 
     /**
@@ -89,7 +118,8 @@ public abstract class Personagem {
     }
 
     public void atacar(){
-        this.atacando = !this.atacando;
+        this.atacando = true;
+        this.tempoInicioAtaque = System.currentTimeMillis();
     }
 
     /**

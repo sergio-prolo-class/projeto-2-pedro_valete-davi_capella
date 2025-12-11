@@ -12,6 +12,7 @@ public class Arqueiro extends Personagem implements Guerreiro, Coletador {
     public Arqueiro(int x, int y){
         super(x, y, NOME_IMAGEM, Constantes.ARQUEIRO_VIDA_INICIAL);
         this.velocidade = Constantes.ARQUEIRO_VELOCIDADE;
+        this.alcance = Constantes.ARQUEIRO_ALCANCE;
     }
 
     // Mét0do obrigatório da interface Guerreiro
