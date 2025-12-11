@@ -15,6 +15,7 @@ public class Aldeao extends Personagem implements Coletador, ComMontaria {
         this.velocidade = Constantes.ALDEAO_VELOCIDADE;
     }
 
+    // Logica de montar do cavalo, se estiver desmontado
     @Override
     public void montar(){
         if(!montado){
@@ -24,6 +25,8 @@ public class Aldeao extends Personagem implements Coletador, ComMontaria {
             this.icone = this.carregarImagem(this.nomeImagemBase);
         }
     }
+
+    // Logica de desmontar do cavalo, se estiver montado
     @Override
     public void desmontar(){
         if(montado){
@@ -33,7 +36,7 @@ public class Aldeao extends Personagem implements Coletador, ComMontaria {
             this.icone = this.carregarImagem(this.nomeImagemBase);
         }
     }
-    // Para facilitar no button (toggle
+    // Para facilitar no button (toggle)
     @Override
     public void alternarMontaria(){
         if(montado){

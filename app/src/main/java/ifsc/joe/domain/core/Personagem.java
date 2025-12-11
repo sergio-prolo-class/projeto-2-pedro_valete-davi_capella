@@ -79,7 +79,7 @@ public abstract class Personagem {
 
     public void mover(Direcao direcao, int maxLargura, int maxAltura){
         switch (direcao){
-            case CIMA -> this.posY -= this.velocidade;
+            case CIMA -> this.posY -= this.velocidade; // Não mais uma velocidade fixa, agora varia de acordo com as constantes
             case BAIXO -> this.posY += this.velocidade;
             case ESQUERDA -> this.posX -= this.velocidade;
             case DIREITA -> this.posX += this.velocidade;

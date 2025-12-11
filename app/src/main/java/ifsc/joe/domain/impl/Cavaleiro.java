@@ -22,6 +22,7 @@ public class Cavaleiro extends Personagem implements Guerreiro, ComMontaria {
         }
     }
 
+    // Logica de montar do cavalo, se estiver desmontado
     @Override
     public void montar(){
         if(!montado){
@@ -31,6 +32,8 @@ public class Cavaleiro extends Personagem implements Guerreiro, ComMontaria {
             this.icone = this.carregarImagem(this.nomeImagemBase);
         }
     }
+
+    // Logica de desmontar do cavalo, se estiver montado
     @Override
     public void desmontar(){
         if(montado){
