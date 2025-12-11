@@ -13,6 +13,7 @@ public abstract class Personagem {
     protected String nomeImagemBase;
     protected int vida;
     protected int vidaMaxima;
+    protected int velocidade;
 
     public Personagem(int x, int y, String nomeImagemBase, int vidaMaxima){
         this.posX = x;
@@ -78,10 +79,10 @@ public abstract class Personagem {
 
     public void mover(Direcao direcao, int maxLargura, int maxAltura){
         switch (direcao){
-            case CIMA -> this.posY -= 10;
-            case BAIXO -> this.posY += 10;
-            case ESQUERDA -> this.posX -= 10;
-            case DIREITA -> this.posX += 10;
+            case CIMA -> this.posY -= this.velocidade;
+            case BAIXO -> this.posY += this.velocidade;
+            case ESQUERDA -> this.posX -= this.velocidade;
+            case DIREITA -> this.posX += this.velocidade;
         }
         this.posX = Math.min(Math.max(0, this.posX), maxLargura - this.icone.getWidth(null));
         this.posY = Math.min(Math.max(0, this.posY), maxAltura - this.icone.getHeight(null));

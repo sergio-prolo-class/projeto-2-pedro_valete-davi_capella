@@ -1,5 +1,6 @@
 package ifsc.joe.domain.ui;
 
+import ifsc.joe.domain.api.ComMontaria;
 import ifsc.joe.domain.core.Personagem;
 import ifsc.joe.domain.impl.Aldeao;
 import ifsc.joe.domain.impl.Arqueiro;
@@ -122,7 +123,9 @@ public class Tela extends JPanel {
             }
 
             // Se não passou no filtro ele pula para o próximo personagem
-            if (!deveAtacar) continue;
+            if (!deveAtacar){
+                continue;
+            }
 
 
             // Executa só para quem passou no filtro
@@ -193,5 +196,28 @@ public class Tela extends JPanel {
 
     private double calcularDistancia(Personagem p1, Personagem p2) {
         return Math.sqrt(Math.pow(p1.getPosX() - p2.getPosX(), 2) + Math.pow(p1.getPosY() - p2.getPosY(), 2));
+    }
+
+    public void alternarMontaria(String tipoRadioButton){
+        for(Personagem p : this.personagens){
+            if(p instanceof ComMontaria){
+                boolean deveMontar = false;
+
+                // Verificação do filtro, igual para a movimentação e atacar
+                if(tipoRadioButton.equals("TODOS")){
+                    deveMontar = true;
+                }else if(tipoRadioButton.equals("ALDEAO") && p instanceof Aldeao){
+                    deveMontar = true;
+                }else if(tipoRadioButton.equals("CAVALEIRO") && p instanceof Cavaleiro){
+                    deveMontar = true;
+                }
+
+                // Se passou em algum teste acima, executa o comando
+                if(deveMontar){
+                    ((ComMontaria) p).alternarMontaria();
+                }
+            }
+        }
+        this.repaint();
     }
 }

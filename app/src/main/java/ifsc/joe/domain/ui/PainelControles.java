@@ -31,6 +31,7 @@ public class PainelControles {
     private JButton buttonBaixo;
     private JButton buttonDireita;
     private JLabel logo;
+    private JButton montarDesmontarButton;
 
     public PainelControles() {
         this.sorteio = new Random();
@@ -44,6 +45,7 @@ public class PainelControles {
         configurarBotoesMovimento();
         configurarBotoesCriacao();
         configurarBotaoAtaque();
+        configurarBotaoMontar();
     }
 
     /**
@@ -73,6 +75,13 @@ public class PainelControles {
     private void configurarBotaoAtaque() {
         atacarButton.addActionListener(e -> {
             getTela().atacar(getTipoSelecionado());
+        });
+    }
+
+    // Configura o listener do botão de Montar/Desmontar
+    private void configurarBotaoMontar(){
+        montarDesmontarButton.addActionListener(e -> {
+            getTela().alternarMontaria(getTipoSelecionado());
         });
     }
 
