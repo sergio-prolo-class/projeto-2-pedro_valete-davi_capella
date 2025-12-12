@@ -31,11 +31,9 @@ public class JanelaJogo {
         frame.pack();
         frame.setLocationRelativeTo(null); // Centralizar na tela
 
-        // --- CORREÇÃO IMPORTANTE ---
+        //CORREÇÃO IMPORTANTE
         // Desativa a função padrão do TAB (que é mudar o foco entre botões)
-        // Isso permite que o seu KeyListener capture o TAB para trocar os filtros
         frame.setFocusTraversalKeysEnabled(false);
-        // ---------------------------
 
         frame.addKeyListener(new KeyListener() {
             @Override

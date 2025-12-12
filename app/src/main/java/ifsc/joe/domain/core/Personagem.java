@@ -8,7 +8,8 @@ import java.util.Objects;
 public abstract class Personagem {
 
     protected int posX, posY;
-    protected boolean atacando;
+    protected boolean atacando;        // Controla o Fade Out (Círculo)
+    protected boolean spriteAlternado; // Controla a troca de Imagem
     protected Image icone;
     protected String nomeImagemBase;
     protected int vida;
@@ -22,6 +23,7 @@ public abstract class Personagem {
         this.posY = y;
         this.nomeImagemBase = nomeImagemBase;
         this.atacando = false;
+        this.spriteAlternado = false;
         this.icone = this.carregarImagem(nomeImagemBase);
         this.vida = vidaMaxima;
         this.vidaMaxima = vidaMaxima;
@@ -71,7 +73,8 @@ public abstract class Personagem {
             }
         }
 
-        this.icone = this.carregarImagem(nomeImagemBase + (atacando ? "2" : ""));
+        // Agora usa spriteAlternado em vez de atacando para escolher a imagem
+        this.icone = this.carregarImagem(nomeImagemBase + (spriteAlternado ? "2" : ""));
         g.drawImage(this.icone, this.posX, this.posY, painel);
 
         // Calcula a porcentagem de 0 a 1
@@ -118,8 +121,9 @@ public abstract class Personagem {
     }
 
     public void atacar(){
-        this.atacando = true;
+        this.atacando = true; // Inicia o Fade Out
         this.tempoInicioAtaque = System.currentTimeMillis();
+        this.spriteAlternado = !this.spriteAlternado; // Alterna a imagem instantaneamente
     }
 
     /**
