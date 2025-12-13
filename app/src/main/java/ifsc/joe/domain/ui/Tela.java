@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class Tela extends JPanel {
 
     private final Set<Personagem> personagens;
-    private final Set<ObjetoRecurso> recursosMapa; // Nova lista de recursos
+    private final Set<ObjetoRecurso> recursosMapa; // Lista de recursos
 
     // Variáveis Visuais (Fade Out)
     private final Set<Personagem> morrendo;
@@ -33,7 +33,7 @@ public class Tela extends JPanel {
     private int baixasArqueiros = 0;
     private int baixasCavaleiros = 0;
 
-    // Placar de Recursos do Jogador (Novo Requisito)
+    // Placar de Recursos do Jogador
     private int jogadorOuro = 0;
     private int jogadorMadeira = 0;
     private int jogadorComida = 0;
@@ -125,13 +125,28 @@ public class Tela extends JPanel {
         this.repaint();
     }
 
-    // --- MÉTODO NOVO: Lógica de Coleta ---
-    public void coletarRecursosProximos() {
+    // --- MÉTODO MODIFICADO: Agora recebe o filtro (String tipoRadioButton) ---
+    public void coletarRecursosProximos(String tipoRadioButton) {
         boolean coletouAlgo = false;
 
         for (Personagem p : this.personagens) {
-            // Apenas quem tem a interface Coletador pode pegar recursos
+
+            // 1. Aplica o Filtro (Igual ao mover/atacar)
+            boolean deveColetar = false;
+            if (tipoRadioButton.equals("TODOS")) deveColetar = true;
+            else if (tipoRadioButton.equals("ALDEAO") && p instanceof Aldeao) deveColetar = true;
+            else if (tipoRadioButton.equals("ARQUEIRO") && p instanceof Arqueiro) deveColetar = true;
+            else if (tipoRadioButton.equals("CAVALEIRO") && p instanceof Cavaleiro) deveColetar = true;
+
+            // Se não passou no filtro, pula para o próximo
+            if (!deveColetar) continue;
+
+            // 2. Apenas quem tem a interface Coletador pode pegar recursos
             if (p instanceof Coletador) {
+
+                // Inicia a animação de aura verde
+                p.iniciarColeta();
+
                 for (ObjetoRecurso rec : this.recursosMapa) {
                     // Se estiver perto (50px)
                     if (calcularDistanciaRecurso(p, rec) <= 50) {
@@ -153,8 +168,20 @@ public class Tela extends JPanel {
         // Remove recursos coletados da lista do mapa
         if (coletouAlgo) {
             this.recursosMapa.removeIf(ObjetoRecurso::isColetado);
-            this.repaint(); // Atualiza a tela (somem os recursos e atualiza o placar)
         }
+
+        this.repaint();
+
+        // Timer para atualizar o Fade Out VERDE (Coleta)
+        Timer timerColeta = new Timer(50, null);
+        long inicioAnimacao = System.currentTimeMillis();
+        timerColeta.addActionListener(e -> {
+            this.repaint();
+            if (System.currentTimeMillis() - inicioAnimacao > 1100) {
+                timerColeta.stop();
+            }
+        });
+        timerColeta.start();
     }
 
     public void atacar(String tipoRadioButton) {
@@ -167,9 +194,10 @@ public class Tela extends JPanel {
 
             if (!deveAtacar) continue;
 
-            atacante.atacar();
-
+            // Só inicia animação se for Guerreiro (Aldeão não tem aura de ataque)
             if (atacante instanceof Guerreiro) {
+                atacante.atacar(); // Inicia aura vermelha e troca sprite
+
                 for (Personagem alvo : this.personagens) {
                     if (atacante != alvo && !alvo.estarMorto() &&
                             calcularDistancia(atacante, alvo) <= atacante.getAlcance()) {

@@ -58,6 +58,9 @@ public class JanelaJogo {
                     case KeyEvent.VK_SPACE -> painelControles.getTela().atacar(tipoSelecionado);
                     case KeyEvent.VK_M -> painelControles.getTela().alternarMontaria(tipoSelecionado);
                     case KeyEvent.VK_TAB -> painelControles.selecionarProximoFiltro();
+
+                    // ADICIONADO: Atalho 'C' para coletar recursos
+                    case KeyEvent.VK_C -> painelControles.getTela().coletarRecursosProximos(tipoSelecionado);
                 }
             }
 

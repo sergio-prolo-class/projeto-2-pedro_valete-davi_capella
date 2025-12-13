@@ -92,7 +92,8 @@ public class PainelControles {
     private void configurarBotaoColetar() {
         if (coletarButton != null) {
             coletarButton.addActionListener(e -> {
-                getTela().coletarRecursosProximos();
+                // MODIFICADO: Agora passa o filtro selecionado para a tela
+                getTela().coletarRecursosProximos(getTipoSelecionado());
             });
         }
     }
