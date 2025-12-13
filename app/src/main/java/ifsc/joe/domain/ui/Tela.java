@@ -89,9 +89,9 @@ public class Tela extends JPanel {
         // 4. Desenha o HUD de Recursos (Canto Superior Esquerdo)
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 12));
-        g.drawString(" Ouro: " + jogadorOuro, 10, 20);
-        g.drawString(" Madeira: " + jogadorMadeira, 10, 35);
-        g.drawString(" Comida: " + jogadorComida, 10, 50);
+        g.drawString("💰 Ouro: " + jogadorOuro, 10, 20);
+        g.drawString("🌲 Madeira: " + jogadorMadeira, 10, 35);
+        g.drawString("🍎 Comida: " + jogadorComida, 10, 50);
 
         g.dispose();
     }
@@ -154,7 +154,9 @@ public class Tela extends JPanel {
 
                 // Verifica se tem recurso perto
                 for (ObjetoRecurso rec : this.recursosMapa) {
-                    if (calcularDistanciaRecurso(p, rec) <= 50) {
+
+                    //Aumentado para 65px para corresponder melhor à aura visual
+                    if (calcularDistanciaRecurso(p, rec) <= 65) {
                         ((Coletador) p).coletar(rec.getTipoRecurso());
                         rec.setColetado(true); // Marca para sumir
                         coletouAlgo = true;
@@ -267,7 +269,7 @@ public class Tela extends JPanel {
         timerAnimacao.start();
     }
 
-    // Matemática básica para distância
+    // Matemática básica para distância (Pitágoras)
     private double calcularDistancia(Personagem p1, Personagem p2) {
         return Math.sqrt(Math.pow(p1.getPosX() - p2.getPosX(), 2) + Math.pow(p1.getPosY() - p2.getPosY(), 2));
     }
