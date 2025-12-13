@@ -33,9 +33,10 @@ Java of Empires, projeto desenvolvido na disciplina de Programação Orientada a
   **❤️ Barra de Vida (4 pontos):**
 - *Indicador visual da vida atual de cada personagem acima do sprite.*
 
-##Título: 🎲 Funcionalidades de Jogo 🎲 <br>
+## Título: 🎲 Funcionalidades de Jogo 🎲 <br>
  **🌾 Sistema de Coleta (4 pontos):**
 - *Implementa mecânica de coleta de recursos adicionados ao jogador.*
+
 
 ### Controles e Interação
 - **Movimentação:** Controle de direção dos personagens controlados via teclado (`W`, `A`, `S`, `D`).
@@ -79,5 +80,3 @@ Para evitar o uso de números ou strings soltas no código sem explicação e fa
 - **Problema:** Valores como os de ataque e movimentação dos personagens dificultam alterações e geram inconsistências.
 - **Solução:** Implementação de uma classe dedicada para armazenar todos os atributos globais e estáticos do projeto.
 - **Benefício:** Permite alterar configurações gerais do jogo (como os valores citados) em um único arquivo, propagando a mudança automaticamente para todo o projeto.
----
-
