@@ -48,7 +48,7 @@ public class PainelControles {
         configurarBotoesCriacao();
         configurarBotaoAtaque();
         configurarBotaoMontar();
-        configurarBotaoColetar(); // ADICIONADO: Configuração do botão de coleta
+        configurarBotaoColetar();
     }
 
     /**
@@ -92,7 +92,6 @@ public class PainelControles {
     private void configurarBotaoColetar() {
         if (coletarButton != null) {
             coletarButton.addActionListener(e -> {
-                // MODIFICADO: Agora passa o filtro selecionado para a tela
                 getTela().coletarRecursosProximos(getTipoSelecionado());
             });
         }

@@ -6,18 +6,20 @@ import ifsc.joe.domain.api.Coletador;
 import ifsc.joe.domain.enums.Recurso;
 import ifsc.joe.domain.api.ComMontaria;
 
+// Aldeão: Coleta e monta cavalo, mas não ataca
 public class Aldeao extends Personagem implements Coletador, ComMontaria {
     private static final String NOME_IMAGEM = "aldeao";
     private boolean montado = false;
 
     public Aldeao(int x, int y){
         super(x, y, NOME_IMAGEM, Constantes.ALDEAO_VIDA_INICIAL);
+        // Pega valores do arquivo de constantes
         this.velocidade = Constantes.ALDEAO_VELOCIDADE;
         this.alcance = Constantes.ALDEAO_ALCANCE;
         this.chanceEsquiva = Constantes.ALDEAO_CHANCE_ESQUIVA;
     }
 
-    // Logica de montar do cavalo, se estiver desmontado
+    // Sobe no cavalo, muda velocidade e imagem
     @Override
     public void montar(){
         if(!montado){
@@ -28,7 +30,7 @@ public class Aldeao extends Personagem implements Coletador, ComMontaria {
         }
     }
 
-    // Logica de desmontar do cavalo, se estiver montado
+    // Desce do cavalo
     @Override
     public void desmontar(){
         if(montado){
@@ -38,7 +40,8 @@ public class Aldeao extends Personagem implements Coletador, ComMontaria {
             this.icone = this.carregarImagem(this.nomeImagemBase);
         }
     }
-    // Para facilitar no button (toggle)
+
+    // Método para o botão funcionar como interruptor
     @Override
     public void alternarMontaria(){
         if(montado){
@@ -48,7 +51,7 @@ public class Aldeao extends Personagem implements Coletador, ComMontaria {
         }
     }
 
-    // Mét0do obrigatório da interface Coletador
+    // Implementação da coleta
     @Override
     public void coletar(Recurso recurso) {
         System.out.println("Aldeão coletando: " + recurso);

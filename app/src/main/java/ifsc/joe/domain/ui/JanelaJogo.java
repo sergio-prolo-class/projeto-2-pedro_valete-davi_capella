@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import ifsc.joe.domain.enums.Direcao;
 
 /**
- * Classe responsável pela configuração e exibição da janela principal do jogo.
+ * Classe principal que cria a janela (JFrame) e configura o teclado.
  */
 public class JanelaJogo {
 
@@ -17,13 +17,9 @@ public class JanelaJogo {
     public JanelaJogo() {
         this.frame = new JFrame(TITULO);
         this.painelControles = new PainelControles();
-
         this.configurarJanela();
     }
 
-    /**
-     * Configura o conteúdo da janela
-     */
     private void configurarJanela() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -31,10 +27,11 @@ public class JanelaJogo {
         frame.pack();
         frame.setLocationRelativeTo(null); // Centralizar na tela
 
-        //CORREÇÃO IMPORTANTE
-        // Desativa a função padrão do TAB (que é mudar o foco entre botões)
+        // Impede que o TAB mude o foco dos botões,
+        // permitindo usar o TAB como atalho do jogo
         frame.setFocusTraversalKeysEnabled(false);
 
+        // Configura os atalhos de teclado
         frame.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -42,25 +39,25 @@ public class JanelaJogo {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                // System.out.println("Recebi a tecla: " + e.getKeyCode());
                 String tipoSelecionado = painelControles.getTipoSelecionado();
 
                 switch (e.getKeyCode()){
+                    // Movimento (WASD)
                     case KeyEvent.VK_W -> painelControles.getTela().movimentar(Direcao.CIMA, tipoSelecionado);
                     case KeyEvent.VK_A -> painelControles.getTela().movimentar(Direcao.ESQUERDA, tipoSelecionado);
                     case KeyEvent.VK_S -> painelControles.getTela().movimentar(Direcao.BAIXO, tipoSelecionado);
                     case KeyEvent.VK_D -> painelControles.getTela().movimentar(Direcao.DIREITA, tipoSelecionado);
 
+                    // Criação (1, 2, 3)
                     case KeyEvent.VK_1 -> painelControles.criarAldeaoAleatorio();
                     case KeyEvent.VK_2 -> painelControles.criarArqueiroAleatorio();
                     case KeyEvent.VK_3 -> painelControles.criarCavaleiroAleatorio();
 
+                    // Ações
                     case KeyEvent.VK_SPACE -> painelControles.getTela().atacar(tipoSelecionado);
                     case KeyEvent.VK_M -> painelControles.getTela().alternarMontaria(tipoSelecionado);
-                    case KeyEvent.VK_TAB -> painelControles.selecionarProximoFiltro();
-
-                    // ADICIONADO: Atalho 'C' para coletar recursos
-                    case KeyEvent.VK_C -> painelControles.getTela().coletarRecursosProximos(tipoSelecionado);
+                    case KeyEvent.VK_TAB -> painelControles.selecionarProximoFiltro(); // Alterna filtro
+                    case KeyEvent.VK_C -> painelControles.getTela().coletarRecursosProximos(tipoSelecionado); // Coleta
                 }
             }
 
@@ -70,13 +67,9 @@ public class JanelaJogo {
         });
     }
 
-    /**
-     * Torna a janela visível.
-     */
     public void exibir() {
         frame.setVisible(true);
-
-        frame.setFocusable(true);
+        frame.setFocusable(true); // Garante que a janela pegue o foco para o teclado funcionar
         frame.requestFocus();
     }
 }

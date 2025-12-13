@@ -4,10 +4,11 @@ import ifsc.joe.domain.enums.Recurso;
 import javax.swing.*;
 import java.awt.*;
 
+// Classe que representa os itens no chão (ouro, madeira, comida)
 public class ObjetoRecurso {
     private int posX, posY;
     private Recurso tipoRecurso;
-    private boolean coletado;
+    private boolean coletado; // para saber se já foi pego
 
     public ObjetoRecurso(int x, int y, Recurso tipoRecurso) {
         this.posX = x;
@@ -16,8 +17,9 @@ public class ObjetoRecurso {
         this.coletado = false;
     }
 
+    // Desenha o quadradinho colorido dependendo do tipo
     public void desenhar(Graphics g) {
-        if (coletado) return;
+        if (coletado) return; // Se já coletou, não desenha nada
 
         // Define a cor baseada no tipo
         switch (tipoRecurso) {
@@ -26,10 +28,10 @@ public class ObjetoRecurso {
             case COMIDA -> g.setColor(Color.PINK);
         }
 
-        // Desenha um quadrado pequeno (Recurso)
+        // Desenha um quadrado pequeno (20x20)
         g.fillRect(posX, posY, 20, 20);
 
-        // Borda
+        // Borda preta pra ficar visível
         g.setColor(Color.BLACK);
         g.drawRect(posX, posY, 20, 20);
     }
