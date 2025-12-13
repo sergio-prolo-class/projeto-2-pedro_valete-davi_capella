@@ -14,6 +14,7 @@ public class Aldeao extends Personagem implements Coletador, ComMontaria {
         super(x, y, NOME_IMAGEM, Constantes.ALDEAO_VIDA_INICIAL);
         this.velocidade = Constantes.ALDEAO_VELOCIDADE;
         this.alcance = Constantes.ALDEAO_ALCANCE;
+        this.chanceEsquiva = Constantes.ALDEAO_CHANCE_ESQUIVA;
     }
 
     // Logica de montar do cavalo, se estiver desmontado

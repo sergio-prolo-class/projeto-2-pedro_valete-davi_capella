@@ -13,6 +13,7 @@ public class Cavaleiro extends Personagem implements Guerreiro, ComMontaria {
         super(x, y, NOME_IMAGEM, Constantes.CAVALEIRO_VIDA_INICIAL);
         this.montar();
         this.alcance = Constantes.CAVALEIRO_ALCANCE;
+        this.chanceEsquiva = Constantes.CAVALEIRO_CHANCE_ESQUIVA;
     }
 
     @Override
