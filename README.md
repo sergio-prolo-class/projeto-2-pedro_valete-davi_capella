@@ -2,7 +2,7 @@ Java of Empires, projeto desenvolvido na disciplina de Programação Orientada a
 
 ## Funcionalidades Implementadas
 
- **Título: ⚔️ Sistema de Combate ⚔️**
+## Título: ⚔️ Sistema de Combate ⚔️ <br>
  **⚔️ Ataque Básico (3 pontos):** 
 - *Implementa sistema de ataque onde personagens podem atacar outros personagens no jogo.*
 
@@ -15,7 +15,7 @@ Java of Empires, projeto desenvolvido na disciplina de Programação Orientada a
  **💨 Esquiva (5 pontos):**
 - *Alvos têm chance de esquivar ataques, evitando completamente o dano.*
 
- **Título: 🎮 Controles Avançados 🎮**
+## Título: 🎮 Controles Avançados 🎮 <br>
   **🔘 Filtro por Tipo (4 pontos):**
 - *Implementa radio buttons para filtrar quais personagens serão afetados pelos comandos.*
 
@@ -25,20 +25,18 @@ Java of Empires, projeto desenvolvido na disciplina de Programação Orientada a
  **⌨️ Atalhos de Teclado (6 pontos):**
 - *Implementa controles por teclado para facilitar comandos rápidos.*
 
-  **Título: 🏛️ Arquitetura de Software 🏛️**
+## Título: 🏛️ Arquitetura de Software 🏛️ <br>
  **⚙️ Arquivo de Configurações (3 pontos):**
 - *Centralizar valores constantes em arquivo ou classe de configuração.*
 
-  **Título: 🖥️ Interface do Usuário 🖥️**
+## Título: 🖥️ Interface do Usuário 🖥️ <br>
   **❤️ Barra de Vida (4 pontos):**
 - *Indicador visual da vida atual de cada personagem acima do sprite.*
 
- **Título: 🎲 Funcionalidades de Jogo 🎲**
+##Título: 🎲 Funcionalidades de Jogo 🎲<br>
  **🌾 Sistema de Coleta (4 pontos):**
 - *Implementa mecânica de coleta de recursos adicionados ao jogador.*
-
----
-
+<br>
 ### Controles e Interação
 - **Movimentação:** Controle de direção dos personagens controlados via teclado (`W`, `A`, `S`, `D`).
 - **Ações de Unidade:**
