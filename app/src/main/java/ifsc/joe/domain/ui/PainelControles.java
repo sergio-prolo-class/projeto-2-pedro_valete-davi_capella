@@ -32,6 +32,7 @@ public class PainelControles {
     private JButton buttonDireita;
     private JLabel logo;
     private JButton montarDesmontarButton;
+    private JButton coletarButton; // Botão de Coleta
 
     public PainelControles() {
         this.sorteio = new Random();
@@ -47,6 +48,7 @@ public class PainelControles {
         configurarBotoesCriacao();
         configurarBotaoAtaque();
         configurarBotaoMontar();
+        configurarBotaoColetar(); // ADICIONADO: Configuração do botão de coleta
     }
 
     /**
@@ -86,6 +88,15 @@ public class PainelControles {
         });
     }
 
+    //  Configura o listener do botão de Coletar
+    private void configurarBotaoColetar() {
+        if (coletarButton != null) {
+            coletarButton.addActionListener(e -> {
+                getTela().coletarRecursosProximos();
+            });
+        }
+    }
+
     // Configura para redirecionar o foco após algum botão ser clicado
     private void configurarFocoBotao(){
         bCriaAldeao.setFocusable(false);
@@ -101,6 +112,11 @@ public class PainelControles {
         aldeaoRadioButton.setFocusable(false);
         arqueiroRadioButton.setFocusable(false);
         cavaleiroRadioButton.setFocusable(false);
+
+        //Remove foco do botão de coleta
+        if (coletarButton != null) {
+            coletarButton.setFocusable(false);
+        }
     }
 
     /**
